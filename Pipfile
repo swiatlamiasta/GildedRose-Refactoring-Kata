@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 texttest = "*"
+pylint = "*"
+radon = "*"
 
 [dev-packages]
 

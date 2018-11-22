@@ -1,15 +1,31 @@
 # -*- coding: utf-8 -*-
 import re
 
+
 class GildedRose(object):
 
     def __init__(self, items):
         self.items = items
 
-    def update_quality_original(self):
+    def update_quality(self):
+        ''' 
+        CC before and after:
+        GildedRose.update_quality - C (19)
+        GildedRose.update_quality - D (21)
+
+        Halstead before and after:
+        difficulty: 10.8
+        effort: 4205.47
+
+        difficulty: 11.6
+        effort: 4851.58
+        '''
+
         for item in self.items:
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
                 if item.quality > 0:
+                    if item.name.startswith("Conjured"):
+                        item.quality = item.quality - 1
                     if item.name != "Sulfuras, Hand of Ragnaros":
                         item.quality = item.quality - 1
             else:
@@ -28,6 +44,8 @@ class GildedRose(object):
                 if item.name != "Aged Brie":
                     if item.name != "Backstage passes to a TAFKAL80ETC concert":
                         if item.quality > 0:
+                            if item.name.startswith("Conjured"):
+                                item.quality = item.quality - 1
                             if item.name != "Sulfuras, Hand of Ragnaros":
                                 item.quality = item.quality - 1
                     else:
@@ -36,7 +54,7 @@ class GildedRose(object):
                     if item.quality < 50:
                         item.quality = item.quality + 1
 
-    def update_quality(self):
+    def update_quality_new(self):
         '''First naive non OOP attempt
         '''
 
@@ -49,7 +67,7 @@ class GildedRose(object):
                     item.quality += 1
                 item.sell_in -= 1
             elif item.name == "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality < 50:   
+                if item.quality < 50:
                     if item.sell_in < 1:
                         item.quality = 0
                     elif item.sell_in < 6:
@@ -72,6 +90,7 @@ class GildedRose(object):
                     else:
                         item.quality -= 1
                 item.sell_in -= 1
+
 
 class Item:
     def __init__(self, name, sell_in, quality):

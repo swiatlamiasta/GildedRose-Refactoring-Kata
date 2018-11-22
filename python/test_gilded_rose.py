@@ -85,10 +85,20 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(-1, items[0].sell_in)
 
     def test_conjured_item(self):
-        items = [Item("Conjured Mana Cake", 10, 20)]
+        items = []
+        items.append(Item("Conjured Mana Cake", 5, 20))
+        items.append(Item("Conjured Mana Cake", 0, 10))
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(18, items[0].quality)
-        self.assertEqual(9, items[0].sell_in)
+        expected = [
+              {'sell_in': 4, 'quality': 18},
+              {'sell_in': -1, 'quality': 6},
+            ]
+
+        for index, expectation in enumerate(expected):
+            item = items[index]
+            self.assertEqual(item.quality, expectation['quality'])
+            self.assertEqual(item.sell_in, expectation['sell_in'])
+
 if __name__ == '__main__':
     unittest.main()
